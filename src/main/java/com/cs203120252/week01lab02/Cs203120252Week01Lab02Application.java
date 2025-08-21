@@ -15,7 +15,7 @@ import java.util.List;
 public class Cs203120252Week01Lab02Application {
     private static final List<MarvelCharacter> characters = new ArrayList<>();
 
-    private static Long nextId = 1L;
+    private static long nextId = 1;
 
     static {
         characters.add(new MarvelCharacter(nextId++, "Spider-Man", "Peter Parker", "Avengers", "Amazing Fantasy #15 (1962)", "Wall-crawling, web-shooting, spider-sense", "Bitten by radioactive spider"));
