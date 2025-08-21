@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RestController
@@ -37,22 +38,18 @@ public class Cs203120252Week01Lab02Application {
     @GetMapping
     public ResponseEntity<List<MarvelCharacter>> getAllCharacters(@RequestParam(required = false) String team,
                                                                   @RequestParam(required = false) String name) {
-        List<MarvelCharacter> result = new ArrayList<>();
+        List<MarvelCharacter> result = new ArrayList<>(characters);
 
         if (team != null && !team.isEmpty()) {
-            for (MarvelCharacter character : characters) {
-                if (character.getTeam().equalsIgnoreCase(team)) {
-                    result.add(character);
-                }
-            }
-        } else if (name != null && !name.isEmpty()) {
-            for (MarvelCharacter character : characters) {
-                if (character.getName().toLowerCase().contains(name.toLowerCase())) {
-                    result.add(character);
-                }
-            }
-        } else {
-            result = new ArrayList<>(characters);
+            result = result.stream()
+                    .filter(character -> character.getTeam().equalsIgnoreCase(team))
+                    .collect(Collectors.toList());
+        }
+
+        if (name != null && !name.isEmpty()) {
+            result = result.stream()
+                    .filter(character -> character.getName().toLowerCase().contains(name.toLowerCase()))
+                    .collect(Collectors.toList());
         }
 
         return ResponseEntity.ok(result);
